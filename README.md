@@ -26,6 +26,9 @@ Interactive 6DoF WebXR Viewer: A built-in, first-person 3D viewport utilizing WA
 * Cryptography / PyJWT / Psycopg2
 * Pydantic v2
 
+• AI-Driven Plug-and-Play Extensibility Core: An integrated Code Agent tailored to generate scripts compliant with the system's strict sandbox boundaries, working alongside an in-app Marketplace infrastructure for hot-reloading extensions without server downtime.
+
+
 ## 💼 Hardware-Grant & Partnership Opportunity
 
 This entire core architecture was engineered completely from scratch by me as a solo developer, working 100% remote due to health constraints (dialysis). 
