@@ -28,6 +28,15 @@ Interactive 6DoF WebXR Viewer: A built-in, first-person 3D viewport utilizing WA
 
 • AI-Driven Plug-and-Play Extensibility Core: An integrated Code Agent tailored to generate scripts compliant with the system's strict sandbox boundaries, working alongside an in-app Marketplace infrastructure for hot-reloading extensions without server downtime.
 
+---
+
+🔐 Open-Architecture & IP-Kapselung (Burggraben)
+Dieses Repository dient als **struktureller Proof of Concept** und demonstriert die hochsichere Orchestrierung, das Middleware-Stapeln und das saubere Routing des Gesamtsystems (siehe `main.py`). 
+
+Um das geistige Eigentum (IP) des Projekts zu schützen, sind die komplexen Kern-Algorithmen und funktionalen Business-Engines – darunter die vollständige RestrictedPython-Sandbox, die deterministische Ringpuffer-Anomalieerkennung sowie die optimierten lokalen Modell-Weights – in diesem öffentlichen Repository bewusst gekapselt oder ausgespart. 
+
+Die voll funktionsfähige, produktionsbereite Deep-Tech-Ebene ist exklusiver Bestandteil der nachfolgend beschriebenen Partner-Lizenz.
+
 
 ## 💼 Hardware-Grant & Partnership Opportunity
 
