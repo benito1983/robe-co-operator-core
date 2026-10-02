@@ -1,39 +1,58 @@
-# backend/security/__init__.py
+# backend/sentinel/__init__.py
 #
-# Active Security module for RoBe: capability tokens, hash-chained
-# audit log, anomaly detection, and (in later steps) plugin sandbox
-# and full AI guardrails.
+# RoBe Sentinel - Active Defense mit Attack Intelligence.
 #
-# Registered like every other domain module via register(). Enabled
-# per org via backend.core.capabilities.enable_module(org, "security").
-# The enforcement primitives (org_id isolation, Argon2id, RS256,
-# fail-closed permission check) live in backend/core/ and stay active
-# regardless of whether this module is enabled.
+# Harte Grenze (Nutzerentscheidung 2026-09-27, als Test erzwungen in
+# tests/test_sentinel.py::TestDefensiveBoundary):
+#
+#   RoBe DARF:       erkennen, blockieren, isolieren, taeuschen, dokumentieren.
+#   RoBe DARF NICHT: fremde Systeme beschaedigen oder sich dort einwisten.
+#
+# Alles in diesem Paket liest ausschliesslich die EIGENE Telemetrie und
+# wirkt ausschliesslich AUF DER EIGENEN INFRASTRUKTUR (Sperren, Regeln,
+# Forensik). Es gibt bewusst keine Verbindung nach aussen, kein Scanning
+# fremder Hosts, kein Zurueckschlagen - das ist kein Vertrag, den man
+# einhalten muss, sondern ein baulicher Zwang: das Grenz-Test schreibt
+# das Paket auf, sobald jemals eine Bibliothek fuer ausgehende Angriffe
+# hinzukommt.
+#
+# Lernschleife ("RoBe lernt aus dem Angriff"):
+#   Attack Event -> Threat Classification -> Attack Pattern -> MITRE
+#   ATT&CK -> Behavior Analysis -> Detection Rule -> Security Agent.
+#   Die erzeugte Detection Rule landet als security_policies-Zeile,
+#   die anomaly.py bereits auswertet - derselbe Angriff wird beim
+#   naechsten Mal frueher erkannt, ohne dass ein Mensch sie tippt.
+from __future__ import annotations
+
 from backend.core.registry import ModuleInfo, ModuleRegistry
 
 
 def register(registry: ModuleRegistry) -> None:
     registry.register(
         ModuleInfo(
-            key="security",
-            name="RoBe Active Security",
+            key="sentinel",
+            name="RoBe Sentinel",
             description=(
-                "Capability tokens, hash-chained audit log, anomaly "
-                "detection and security hooks (audit, AI guard, "
-                "capability checks)"
+                "Active Defense mit Attack Intelligence: Angriffe auf die "
+                "eigene Infrastruktur erkennen, korrelieren und blockieren, "
+                "MITRE ATT&CK zuordnen, forensisch rekonstruieren und daraus "
+                "automatisch Detection Rules lernen. Dazu Canary Assets: "
+                "Koeder legen, die niemand legitimerweise anfasst, und ihre "
+                "Beruehrung als Hochverdacht dokumentieren. Verteidigung nur - "
+                "Sentinel greift nie fremde Systeme an."
             ),
-            version="0.1.0",
-            group="RoBe Trust & Security",
+            version="0.2.0",
         )
     )
 
 
 PERMISSIONS = [
-    ("can_view_audit_log", "Read the hash-chained audit log"),
-    ("can_manage_policies", "Create, edit and disable security policies"),
-    ("can_issue_capabilities", "Issue capability tokens to users/modules"),
-    ("can_revoke_capabilities", "Revoke any capability in the organization"),
-    ("can_view_security_dashboard", "View the security dashboard/anomalies"),
+    ("can_view_sentinel", "Sentinel-Dashboard, Incidents, Timeline und Ereignisse lesen"),
+    (
+        "can_manage_sentinel",
+        "Ereignisse einspeisen, Incidents schliessen, Regeln lernen, Sperren und "
+        "Canary-Fallen setzen/aufheben",
+    ),
 ]
 
 
@@ -44,23 +63,12 @@ def register_permissions() -> None:
         register_permission(key, description)
 
 
-def activate() -> None:
-    """Wires up the security hooks. Called by app startup AFTER
-    register_permissions(). Idempotent - repeated calls are safe."""
-    from backend.security import middleware
+def install_hooks() -> None:
+    """Canary-Ausloeser an den bestehenden EventBus haengen (idempotent).
 
-    middleware.register_all_hooks()
+    Aufgerufen aus dem Lifespan in main.py - derselbe Platz, an dem
+    auch security.activate() seine Hooks registriert. Ohne diesen
+    Aufruf gibt es Canary-Fallen, aber niemand, der sie hoert."""
+    from backend.sentinel import canary
 
-
-def seed_default_policies(org_id) -> None:
-    """Two safe, alert-only starter anomaly policies for one org.
-    Idempotent - safe to call whenever the security module is enabled
-    for an org (an onboarding flow calling enable_module(org, "security")
-    should call this right after, the same way it would call
-    backend.core.permissions.create_default_roles() for a brand new
-    org). Migration 026's own seed only covers orgs that existed at
-    migration time - this is the callable counterpart for every org
-    created afterward."""
-    from backend.security.repository import PolicyRepository
-
-    PolicyRepository().seed_defaults(org_id)
+    canary.install_hooks()
