@@ -26,8 +26,6 @@ Interactive 6DoF WebXR Viewer: A built-in, first-person 3D viewport utilizing WA
 * Cryptography / PyJWT / Psycopg2
 * Pydantic v2
 
-## 💼 Hardware-Grant & Partnership Opportunity
-This entire core architecture was engineered completely from scratch by me as a solo developer, working 100% remote due to health constraints (dialysis). 
 
 To scale the development for the next generation of local machine learning models and spatial 3D-codecs, I am looking for a **€2,500 Hardware-Grant** to upgrade my home workstation to a high-speed mobile dev-kit (Mini-PC with OcuLink + eGPU).
 
