@@ -31,3 +31,9 @@ To scale the development for the next generation of local machine learning model
 
 📩 **Let's connect and build something scalable together: [Connect on LinkedIn]([https://linkedin.com](https://www.linkedin.com/in/benjamin-schmitz-36b190392/))**
 
+## 💼 Hardware-Grant & Partnership Opportunity
+This entire core architecture was engineered completely from scratch by me as a solo developer, working 100% remote due to health constraints (dialysis). 
+
+While generative models like Wan2.1 (local) and ACE Step are already fully integrated and functional, heavy-duty production models like LTX-Video are currently throttled by hardware constraints. 
+
+I am looking for a **€2,500 Hardware-Grant** to upgrade my home workstation to a high-speed mobile dev-kit (Mini-PC with OcuLink + eGPU) to run and train these large-scale models natively at full speed.
