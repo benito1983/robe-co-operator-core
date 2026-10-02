@@ -17,6 +17,8 @@ The platform is built on an "Offline-First" and "Secure-by-Default" philosophy u
 
 Enterprise Intelligence Suite: Native orchestration core preparing slots for advanced corporate analysis, including a Dependency Graph Engine for real-time impact analysis, a Failure Point Engine for automated triage filtering, and an integrated Corporate Memory for long-term organizational knowledge retention
 
+Interactive 6DoF WebXR Viewer: A built-in, first-person 3D viewport utilizing WASD and mouse-look navigation to walk through volumetric spaces, live point-clouds, and digital twins natively in the browser.
+
 ## 💻 Tech Stack
 * Python 3.11+
 * FastAPI / Starlette
