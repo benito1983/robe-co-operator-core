@@ -1,53 +1,238 @@
-# RoBe Co-Operator - Central Composition Root
+# RoBe Co-Operator — Central Composition Root
 
-This repository demonstrates the core orchestration and architectural pattern of the **RoBe Co-Operator** platform, a highly secure, modular Fullstack ecosystem.
+**RoBe Co-Operator** is a highly secure, modular full-stack ecosystem built around an **Offline-First** and **Secure-by-Default** architecture.
 
-## 🏗️ Architecture Overview
-The platform is built on an "Offline-First" and "Secure-by-Default" philosophy using **FastAPI** and **PostgreSQL**. It decouples specific domain business logic into independent backend modules.
+This repository represents the **Central Composition Root** of the platform. It demonstrates the core orchestration layer, security middleware, module routing, infrastructure boundaries, and architectural patterns that connect the broader RoBe Co-Operator ecosystem.
 
-### Core Security & Infrastructure Features shown here:
-* **Sandboxed Code Execution:** Secure runtime utilizing a custom integration of RestrictedPython (with JavaScript deliberately blocked for maximum security).
-* **Proactive Security Middleware:** Multi-layered defense-in-depth layout including custom Rate-Limiting, SentinelBan (automated attacker blacklisting), and strict security headers.
-* **Cryptographically Chained Audit Log:** A tamper-proof security event stream using a per-organization SHA256 hash chain with Postgres advisory transaction locks to prevent chain forks under high concurrency.
-* **Zero-Trust Capability Tokens:** Short-lived, HMAC-signed grants with strict delegation attenuation, allowing secure module-to-module and agent communication within tenant boundaries.
-* **Deterministic Anomaly Detection:** An in-process rule engine utilizing memory-efficient ring buffers per tenant to immediately trigger alerts on brute-force bursts or unauthorized API updates.
-* **DSGVO-Compliant AI Runtime:** Cloud-provider orchestration (Gemini, OpenAI, DeepSeek, Anthropic) with local-first Ollama execution. Features strict SSRF validation for local endpoints and explicit user-consent cloud failovers.
-* **Autonomous Skill Forge:** A dynamic runtime discovery layer that automatically maps module actions into OpenAI-compatible JSON-Schema definitions for autonomous AI agents.
-* **Unified Error & Validation Overrides:** Gracefully replaces non-serializable floats (NaN/Infinity) with safe representations to eliminate leaky 500 server errors on malformed payloads.
-
-Enterprise Intelligence Suite: Native orchestration core preparing slots for advanced corporate analysis, including a Dependency Graph Engine for real-time impact analysis, a Failure Point Engine for automated triage filtering, and an integrated Corporate Memory for long-term organizational knowledge retention
-
-Interactive 6DoF WebXR Viewer: A built-in, first-person 3D viewport utilizing WASD and mouse-look navigation to walk through volumetric spaces, live point-clouds, and digital twins natively in the browser.
-
-## 💻 Tech Stack
-* Python 3.11+
-* FastAPI / Starlette
-* Scikit-Learn / Pandas / Joblib
-* Cryptography / PyJWT / Psycopg2
-* Pydantic v2
-
-• AI-Driven Plug-and-Play Extensibility Core: An integrated Code Agent tailored to generate scripts compliant with the system's strict sandbox boundaries, working alongside an in-app Marketplace infrastructure for hot-reloading extensions without server downtime.
+The architecture is designed to be **production-ready and pre-scaled**, allowing additional compute capacity and infrastructure to be introduced without requiring a fundamental redesign of the core system.
 
 ---
 
-### 🔐 Open-Architecture & IP-Kapselung (Burggraben)
+## 🏗️ Architecture Overview
 
-Dieses Repository dient als **struktureller Proof of Concept** und demonstriert die hochsichere Orchestrierung, das Middleware-Stapeln und das saubere Routing des Gesamtsystems (siehe `main.py`). 
+The platform is built around **FastAPI**, **PostgreSQL**, modular backend services, strict security boundaries, and independently deployable domain components.
 
-Um das geistige Eigentum (IP) des Projekts zu schützen, sind die komplexen Kern-Algorithmen und funktionalen Business-Engines – darunter die vollständige RestrictedPython-Sandbox, die deterministische Ringpuffer-Anomalieerkennung sowie die optimierten lokalen Modell-Weights – in diesem öffentlichen Repository bewusst gekapselt oder ausgespart. 
+Domain-specific business logic is deliberately decoupled from the central orchestration layer, allowing individual modules to evolve independently while maintaining a controlled and consistent security model.
 
-Die voll funktionsfähige, produktionsbereite Deep-Tech-Ebene ist exklusiver Bestandteil der nachfolgend beschriebenen Partner-Lizenz.
+### Core Security & Infrastructure
 
+* **Sandboxed Code Execution**
+  Secure script execution through a custom integration of **RestrictedPython**, with JavaScript execution deliberately disabled to reduce the available attack surface.
 
-## 💼 Hardware-Grant & Partnership Opportunity
+* **Proactive Security Middleware**
+  Defense-in-depth security architecture combining custom rate limiting, **SentinelBan** automated attacker blocking, request validation, and strict security headers.
 
-This entire core architecture was engineered completely from scratch by me as a solo developer, working 100% remote due to health constraints (dialysis). 
+* **Cryptographically Chained Audit Log**
+  A tamper-evident security event stream based on per-organization **SHA-256 hash chaining**. PostgreSQL advisory transaction locks are used to prevent chain forks under concurrent writes.
 
-While generative models like Wan2.1 (local) and ACE Step are already fully integrated and functional, heavy-duty production models like LTX-Video are currently throttled by hardware constraints. 
+* **Zero-Trust Capability Tokens**
+  Short-lived, HMAC-signed authorization grants with delegation attenuation. These capabilities provide controlled module-to-module and agent communication within defined tenant boundaries.
 
-I am looking for a **€2,500 Hardware-Grant** to upgrade my home workstation to a high-speed mobile dev-kit (Mini-PC with OcuLink + eGPU) to run and train these large-scale models natively at full speed.
+* **Deterministic Anomaly Detection**
+  An in-process rule engine using memory-efficient per-tenant ring buffers to detect and immediately react to events such as brute-force bursts and unauthorized API modifications.
 
-**The Win-Win Deal:** Your engineering team supports this grant (fully deductible as an R&D business expense), and in return, you receive a full developer license and complete source code access to this production-ready architecture as a rock-solid foundation for your own internal MVPs, AI-agents, or prototypes.
+* **Privacy-Oriented AI Runtime**
+  Local-first AI execution through **Ollama**, combined with controlled orchestration of external providers including Gemini, OpenAI, DeepSeek, and Anthropic. Local endpoints are protected by strict SSRF validation, while cloud failover requires explicit user consent.
 
-📩 **Let's connect and build something scalable together: [Connect on LinkedIn](https://linkedin.com)**
+* **Autonomous Skill Forge**
+  A dynamic runtime discovery layer that maps available module actions into **OpenAI-compatible JSON Schema definitions**, enabling controlled tool discovery for autonomous AI agents.
+
+* **Unified Error & Validation Layer**
+  Centralized validation and serialization handling, including safe normalization of non-serializable floating-point values such as `NaN` and `Infinity`, preventing malformed payloads from unnecessarily propagating into generic HTTP 500 responses.
+
+---
+
+## 🧠 Enterprise Intelligence Suite
+
+The architecture provides native orchestration points for advanced enterprise intelligence components, including:
+
+* **Dependency Graph Engine**
+  Models relationships between system components and enables real-time impact analysis.
+
+* **Failure Point Engine**
+  Provides automated failure-point identification and triage-oriented filtering.
+
+* **Corporate Memory**
+  A persistent organizational knowledge layer designed for long-term retention and retrieval of enterprise information.
+
+These components are designed as modular engines rather than tightly coupled features of the central core.
+
+---
+
+## 🥽 Interactive 6DoF WebXR Viewer
+
+RoBe Co-Operator also includes an interactive browser-based **WebXR visualization layer**.
+
+The viewer provides a first-person 3D environment with:
+
+* WASD navigation
+* Mouse-look interaction
+* Volumetric environments
+* Live point-cloud visualization
+* Digital-twin exploration
+* Browser-native 3D interaction
+
+The WebXR layer is architecturally separated from the backend orchestration core and can therefore evolve independently.
+
+---
+
+## 🤖 AI-Driven Extensibility Core
+
+RoBe Co-Operator contains an AI-driven plug-and-play extensibility architecture.
+
+An integrated **Code Agent** can generate scripts specifically constrained to the platform's sandbox requirements. Generated extensions are designed to operate within the same capability and security boundaries as native modules.
+
+The architecture also provides an in-application **Marketplace infrastructure** for dynamically loading extensions and supporting hot-reload workflows without requiring a complete server restart.
+
+This creates a controlled extension model in which AI-generated functionality does not automatically receive unrestricted access to the underlying system.
+
+---
+
+## 💻 Technology Stack
+
+* **Python 3.11+**
+* **FastAPI / Starlette**
+* **PostgreSQL**
+* **Pydantic v2**
+* **Scikit-learn**
+* **Pandas**
+* **Joblib**
+* **Cryptography**
+* **PyJWT**
+* **Psycopg2**
+* **Ollama**
+* **WebXR / Browser-based 3D**
+
+---
+
+# 🔐 Open Architecture & IP Encapsulation
+
+This repository serves as a **structural proof of concept** and demonstrates the central orchestration architecture, middleware stack, security boundaries, and routing model of the RoBe Co-Operator platform.
+
+The public repository intentionally does **not** expose the complete proprietary implementation.
+
+For intellectual-property protection, selected deep-tech components and proprietary business logic are encapsulated or omitted from this public repository. This includes, among other components:
+
+* the complete RestrictedPython sandbox implementation
+* proprietary deterministic anomaly-detection logic
+* proprietary optimization algorithms
+* selected enterprise business engines
+* optimized local model weights
+* proprietary extension and orchestration logic
+
+The public repository therefore demonstrates the **architectural foundation and integration model**, while the complete production implementation remains part of the proprietary partner package.
+
+## Production-Ready Core
+
+The underlying architecture is designed as a **production-ready, modular and pre-scaled system**.
+
+The current limitation for certain large-scale generative workloads is primarily **local compute capacity**, not a fundamental architectural dependency.
+
+Additional GPU resources can therefore be introduced to unlock workloads that are currently constrained by available VRAM and compute performance without requiring a fundamental restructuring of the core architecture.
+
+---
+
+# 💼 Hardware Grant & Partnership Opportunity
+
+RoBe Co-Operator was engineered from the ground up as a **solo-developed deep-tech platform**.
+
+The project is currently developed remotely on constrained local hardware. While the existing architecture and AI integration are operational, certain high-compute generative workloads are limited by the available hardware.
+
+Models such as **Wan2.1** and **ACE Step** are already integrated and functional locally. Larger production-oriented workloads, including **LTX-Video**, are currently constrained by available compute resources.
+
+I am therefore seeking a **€2,500 hardware grant** to upgrade the development environment into a high-performance mobile development workstation based on a **Mini-PC + OCuLink + eGPU** configuration.
+
+The additional compute capacity would be used for:
+
+* local execution of larger generative models
+* AI model development and experimentation
+* video-generation workloads
+* local inference and testing
+* performance optimization
+* further development of the RoBe Co-Operator AI stack
+
+---
+
+## 🤝 Partnership Model
+
+The proposed partnership is straightforward:
+
+### Partner Contribution
+
+**€2,500 hardware grant**
+
+The contribution would directly fund the additional compute infrastructure required to accelerate development and local execution of high-performance AI workloads.
+
+### Partner Access
+
+In return, the partner can receive:
+
+* a **developer license**
+* access to the complete proprietary source code covered by the partnership
+* access to the production-ready architecture
+* technical documentation
+* a foundation for internal MVP development
+* a foundation for internal AI-agent development
+* a platform for technical prototyping and further customization
+
+The exact scope of source-code access, licensing rights, usage rights, and commercial terms can be defined as part of the individual partnership agreement.
+
+---
+
+# 🚀 Why the Architecture Matters
+
+RoBe Co-Operator is not designed as a single-purpose application.
+
+It is designed as a **modular technology platform** in which security, AI orchestration, extensibility, enterprise intelligence, visualization, and domain-specific functionality can coexist behind controlled architectural boundaries.
+
+The central design principles are:
+
+**Offline-First**
+Local execution wherever practical.
+
+**Secure-by-Default**
+Security boundaries are part of the architecture rather than an afterthought.
+
+**Modular by Design**
+Domain functionality is isolated into independent components.
+
+**Capability-Based Access**
+Modules and agents receive explicit capabilities instead of unrestricted system access.
+
+**AI-Extensible**
+AI-generated functionality can operate inside defined sandbox and authorization boundaries.
+
+**Pre-Scaled Architecture**
+The architecture is designed to accommodate additional infrastructure and compute capacity without fundamental structural redesign.
+
+---
+
+# 📌 Project Status
+
+The RoBe Co-Operator architecture is actively developed and already contains functional implementations across its core infrastructure, security, AI, analytics, and extensibility layers.
+
+The public repository intentionally exposes only a subset of the complete system.
+
+The proprietary production layer is available exclusively under the applicable developer licensing and partnership terms.
+
+---
+
+# 📬 Partnership & Contact
+
+Interested in evaluating the architecture, discussing a developer license, or exploring a hardware-development partnership?
+
+**Let's connect and build something scalable.**
+
+[Connect with me on LinkedIn](https://www.linkedin.com/in/benjamin-schmitz-36b190392/)
+
+---
+
+## ⚖️ Intellectual Property
+
+The public repository contains only the components explicitly released by the author.
+
+Proprietary source code, algorithms, model weights, business logic, and other intellectual property not included in this repository remain the property of the author and are not granted under any implied license.
+
+Use, reproduction, modification, redistribution, or commercial exploitation of proprietary components requires explicit authorization and appropriate licensing.
+
 
